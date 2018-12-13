@@ -29,12 +29,10 @@ To use Magic SysRq, hold down the right Alt key and PrtSc, and then type (In Ord
   * Camera Privacy Button - generates event in linux live?
   * Microphone Mute Button - Works in linux live?
   It appears these buttons are mapped by the ideapad_laptop module, which is fixed in linux kernel master branch, but not available to ubuntu yet.
-* __18.10 seems to have issues with USB 3.0 flash drives. 2.0 drives work fine.__
   
   
   ###### The current reccomended versions of Ubuntu are as follows
-    * LTS: 18.04.1 or latest point release
-    * Non-LTS: 18.10
+    * LTS: 18.04.x
     
 ##### Back up your data using Windows Backup or similar before continuing
 
@@ -44,7 +42,6 @@ Now that the important information is out of the way, let's begin
 ## 1. Download the Ubuntu disk image and imaging software
 * Ubuntu
   * [18.04.1 LTS](http://releases.ubuntu.com/18.04/ubuntu-18.04.1-desktop-amd64.iso) 
-  * [18.10](http://releases.ubuntu.com/18.10/ubuntu-18.10-desktop-amd64.iso)
 * [Etcher](https://etcher.io/)
 
 ## 2. Using Etcher, write the image to a USB Drive
@@ -53,28 +50,16 @@ After installing and opening Etcher, select your USB device and downloaded .iso 
 
 ![Etcher Screenshot](https://github.com/kfechter/LegionY530Ubuntu/raw/master/Images/etcher3.PNG "Etcher Screenshot")
 
-## 3. Disable SecureBoot
-
-Once Etcher has completed (It will show a screen with the message "Flash Complete"), you can close it. While Ubuntu can be installed with SecureBoot enabled, some drivers and features will not work. To disable, the machine needs to be booted into the UEFI settings. To get into UEFI settings, open the start menu in Windows and select restart while holding down shift. Hold down shift until you see the advanced option screen. 
+## 3. Boot from the flash drive.
+Once Etcher has completed (It will show a screen with the message "Flash Complete"), you can close it. To boot the machine into the Ubuntu Live USB, you can use the advanced startup menu.
 
 ![Advanced Startup](https://raw.githubusercontent.com/kfechter/LegionY530Ubuntu/master/Images/20180827_200528.jpg "Advanced Startup")
 
-From this screen, select Troubleshoot, then Advanced Options, then UEFI Firmware Settings. 
+## Change steps to go to use device instead of uefi
 
 ![Troubleshoot](https://github.com/kfechter/LegionY530Ubuntu/blob/master/Images/20180827_200536.jpg "Troubleshoot")
 
 ![Advanced Options](https://raw.githubusercontent.com/kfechter/LegionY530Ubuntu/master/Images/20180827_200543.jpg "Advanced Options")
-
-After selecting UEFI Firmware settings, click the button labelled "Restart" on the screen that appears. 
-
-Once in the UEFI settings, navigate to the Security tab using the arrow keys, then navigate down to 
-Secure Boot. Press enter, select "Disabled" using the arrow keys, then press enter again. Once Secure Boot has been set to disabled, press F10 and select "Yes" to save the changes. 
-
-![UEFI Firmware Setting](https://raw.githubusercontent.com/kfechter/LegionY530Ubuntu/master/Images/20180827_200626.jpg "UEFI Firmware Settings")
-
-![Security Settings](https://raw.githubusercontent.com/kfechter/LegionY530Ubuntu/master/Images/20180827_200636.jpg "Security Settings")
-
-## 4. Boot from the flash drive.
 
 After selecting yes to save the settings, the machine will reboot. as soon as the reboot happens, start pressing the F12 button until you see the boot device selection screen. 
 
@@ -82,7 +67,7 @@ After selecting yes to save the settings, the machine will reboot. as soon as th
 
 Select the flash drive and press enter to boot. on the screen that pops up, select "Try ubuntu without installing" or the equivalent option. 
 
-## 5. Install Ubuntu
+## 4. Install Ubuntu
 
 Once the live desktop loads, open a terminal and run the following command `sudo rmmod ideapad_laptop`. This command will enable wifi. If you are using a wired connection, this step isn't necessary, and a later step will permanently disable this module so wifi always works. 
 
@@ -92,23 +77,15 @@ __NOTE: At this point, if you want to run the automated script, download configu
 
 __If you are using the script, once the script is finished, you can continue to the bottom of the readme for advanced feature setup.__
 
-## 6. Install any available updates
+## 5. Install any available updates
 
 once you are at the desktop, open the terminal and run `sudo rmmod ideapad_laptop` if you are using wifi. without closing the terminal, run the following command `sudo apt-update && sudo apt dist-upgrade`. Follow any terminal prompts and when updates are complete, leave the terminal open.
 
-## 7. Permanently blacklist ideapad_laptop
-
-To allow Wi-Fi to work every boot without having to use rmmod, the ideapad_laptop module must be added to the modprobe blacklist.
-
-run the command `sudo gedit /etc/modprobe.d/blacklist.conf` and add blacklist ideapad_laptop to the end of the file. Save changes and close the editor. 
-
-![Edit Blacklist](https://raw.githubusercontent.com/kfechter/LegionY530Ubuntu/master/Images/Ubuntu.png "Editing Blacklist")
-
-## 8. Install Nvidia drivers and Nvidia-prime packages. 
+## 6. Install Nvidia drivers and Nvidia-prime packages. 
 
 In the terminal, run the following command `sudo apt install nvidia-driver-390 nvidia-prime`. Follow all the prompts to install the drivers and required packages.
 
-## 9. Verify that the Nvidia drivers and Prime packages are installed and configured correctly.
+## 7. Verify that the Nvidia drivers and Prime packages are installed and configured correctly.
 run the following series of commands and verify the output
 
 ```
